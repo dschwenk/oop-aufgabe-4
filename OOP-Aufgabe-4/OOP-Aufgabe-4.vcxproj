@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="buch.cpp" />
     <ClCompile Include="container.cpp" />
+    <ClCompile Include="exceptions.cpp" />
     <ClCompile Include="medium.cpp" />
     <ClCompile Include="OOP-Aufgabe-4.cpp" />
     <ClCompile Include="video.cpp" />
@@ -20,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="buch.h" />
     <ClInclude Include="container.h" />
+    <ClInclude Include="exceptions.h" />
     <ClInclude Include="medium.h" />
     <ClInclude Include="video.h" />
   </ItemGroup>

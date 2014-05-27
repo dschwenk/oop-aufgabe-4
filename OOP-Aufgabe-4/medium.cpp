@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <string>
 #include "medium.h"
+#include "exceptions.h"
 
 using namespace std;
 
@@ -22,20 +23,25 @@ Medium::Medium() {
 	cin.sync();
 	getline(cin,this->titel);
 
-	this->entliehen = false;
+	this->status = vorhanden;
 
 	cout << "\nMedium angelegt.\n\n";
 }
 
 Medium::Medium(bool b){
 	// Signatur + Titel etc in Buch- / Video-Konstruktor
-	this->entliehen = false;
+	this->status = vorhanden;
 }
 
 Medium::~Medium(){
 	cout << "\nKontruktor des Mediums mit der Signatur: " << this->signatur << "\n";
 }
 
+
+const void Medium::printHeadline(){
+	// gebe Tabellenkopf
+	cout << setw(8) << "Signatur" << left << setw(8)  << "Typ" << setw(18) << "Titel" << left << setw(10) << "Status" << setw(20) << "weitere Daten" << "\n";
+}
 
 void Medium::print(){
 	cout << right << setw(8) << signatur << "  " << left << setw(8) << "Medium";
@@ -48,7 +54,7 @@ void Medium::print(){
 	else {
 		cout << setw(18) << titel << "  " << left << setw(8);
 	}
-	if(this->entliehen){
+	if(this->status == entliehen){
 		cout << "entl.";
 	}
 	else {
@@ -60,33 +66,28 @@ void Medium::print(){
 
 void Medium::ausleihen(){
 	// pruefen ob bereits ausgeliehen
-	if(this->entliehen){
-		cout << "\nMedium bereits ausgeliehen!\n\n";
+	if(this->status == entliehen){
+		throw StatusError(this->signatur, 0);
 	}
 	else {
-		this->entliehen = true;
-		cout << "\nMedium ausgeliehen.\n\n";
+		this->status = entliehen;
+		cout << "\nMedium entliehen.\n\n";
 	}
 }
 
 
 void Medium::rueckgabe(){
 	// // pruefen ob ueberhaupt ausgeliehen
-	if(this->entliehen){
-		this->entliehen = false;
+	if(this->status == entliehen){
+		this->status = vorhanden;
 		cout << "\nMedium zurueckgegeben.\n\n";
 	}
 	else {
-		cout << "\nMedium nicht ausgeliehen.\n\n";
+		throw StatusError(signatur, 1);
 	}
 }
 
 
 int Medium::getSignatur(){
 	return this->signatur;
-}
-
-
-bool Medium::getAvailable(){
-	return this->entliehen;
 }

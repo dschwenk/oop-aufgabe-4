@@ -7,8 +7,8 @@
 #include "medium.h"
 #include "buch.h"
 #include "video.h"
-
 #include "container.h"
+#include "exceptions.h"
 
 using namespace std;
 
@@ -18,7 +18,8 @@ int main(){
 	// Container, der die Medien listet / verwaltet
 	Container container;
 
-	Medium* tmpMedium;
+	Buch* tmpBuch;
+	Video* tmpVideo;
 	
 	// benoetigt fuer Menuauswahl
 	char inputChoice = '\0';
@@ -29,12 +30,11 @@ int main(){
 
 	while(true){
 		cout << "Was wollen Sie tun?\n";
-		cout <<	"m - Medium anlegen\n";
-		// cout << "b - Buch anlegen\n";
-		// cout << "v - Video anlegen\n";
+		cout << "b - Buch anlegen\n";
+		cout << "v - Video anlegen\n";
 		cout << "l - Medieneigenschaften ausgeben\n";
-		// cout << "e - Medium entleihen\n";
-		// cout << "r - Rueckgabe\n";
+		cout << "e Signatur - Medium entleihen\n";
+		cout << "r Signatur - Rueckgabe\n";
 		cout << "d Signatur - Medium entfernen\n";
 		cout << "q - Programmende\n";
 		cout << "Auswahl: ";
@@ -42,43 +42,26 @@ int main(){
 		cin >> inputChoice;
 
 		switch(inputChoice){
-			/*
 			// neues Buch
 			case 'b':
-				if(AnzahlBuecher < MAXANZAHLMEDIEN){
-					BuchArray[AnzahlBuecher] = new Buch();
-					AnzahlBuecher++;
-				}
-				else {
-					cout << "\nMaximal Anzahl an Buecher erreicht!\n\n";
-				}
+				// neues Buch anelgen und zur Liste hinzufuegen
+				tmpBuch = new Buch();
+				container.add(tmpBuch);				
 				break;
-			*/
-			// neues Medium
-			case 'm':
-				// neues Medium anelgen und zur Liste hinzufuegen
-				tmpMedium = new Medium();
-				container.add(tmpMedium);				
-				break;
-			/*
 			// neues Video
 			case 'v':
-				if(AnzahlVideos < MAXANZAHLMEDIEN){
-					VideoArray[AnzahlVideos] = new Video();
-					AnzahlVideos++;
-				}
-				else {
-					cout << "\nMaximal Anzahl an Videos erreicht!\n\n";
-				}
+				// neues Video anelgen und zur Liste hinzufuegen
+				tmpVideo = new Video();
+				container.add(tmpVideo);				
 				break;
-			*/
 			// auflisten
 			case 'l':
 				// setzte Iterator auf erstes Element der Liste
 				container.begin();
 				// sind Medien vorhanden?
 				if(container.getitem() != NULL){
-					cout << "\nMedienbestand: \n";
+					// Tabelle Kopfzeile ausgeben
+					Medium::printHeadline();
 					do {
 						// Ausgabe
 						container.getitem()->print();
@@ -92,95 +75,47 @@ int main(){
 					cout << "\nKeine Medien vorhanden.\n\n";
 				}				
 				break;
-			/*
 			// entleihen
 			case 'e':
+				cin >> inputSignatur;
+				// setzte Iterator auf erstes Element der Liste
+				container.begin();
 				// sind Medien vorhanden?
-				if((AnzahlMedien != 0) || (AnzahlBuecher != 0) || (AnzahlVideos != 0)){
-					cout << "\nWelches Medium wollen Sie entleihen? Geben Sie bitte die zugehoerige Signatur ein.\n";
-					do {
-						cin.clear();
-						cin.sync();
-						cout << "Signatur: ";
-					}
-					while(!(cin >> inputSignatur) && cin.fail());
-					foundSignatur = false;
-					// Medium mit passender Signatur vorhanden?					
-					for(int i=0;i<AnzahlMedien;i++){
-						if(MediumArray[i]->getSignatur() == inputSignatur){
-							MediumArray[i]->ausleihen();
-							foundSignatur = true;
-							break;
+				if(container.getitem() != NULL){
+					if(container.getitem()->getSignatur() == inputSignatur){
+						try {
+							container.getitem()->ausleihen();
 						}
-					}
-					for(int i=0;i<AnzahlBuecher;i++){
-						if(BuchArray[i]->getSignatur() == inputSignatur){
-							BuchArray[i]->ausleihen();
-							foundSignatur = true;
-							break;
+						catch(StatusError err){
+							cout << err.text();
 						}
-					}
-					for(int i=0;i<AnzahlVideos;i++){
-						if(VideoArray[i]->getSignatur() == inputSignatur){
-							VideoArray[i]->ausleihen();
-							foundSignatur = true;
-							break;
-						}
-					}
-					// kein passendes Medium zur Signatur gefunden
-					if(!foundSignatur){
-						cout << "\nKein Medium mit der Signatur " << inputSignatur << " vorhanden.\n\n";
 					}
 				}
 				else {
 					cout << "\nKeine Medien vorhanden.\n\n";
-				}
+				}				
 				break;
-			*/
-			/*
+
 			// Rueckgabe
 			case 'r':
+				cin >> inputSignatur;
+				// setzte Iterator auf erstes Element der Liste
+				container.begin();
 				// sind Medien vorhanden?
-				if((AnzahlMedien != 0) || (AnzahlBuecher != 0) || (AnzahlVideos != 0)){
-					cout << "\nWelches Medium wollen Sie zurueck geben? Geben Sie bitte die zugehoerige Signatur ein.\n";
-					do {
-						cin.clear();
-						cin.sync();
-						cout << "Signatur: ";
-					}
-					while(!(cin >> inputSignatur) && cin.fail());
-					foundSignatur = false;					
-					// Medium mit passender Signatur vorhanden?
-					for(int i=0;i<AnzahlMedien;i++){
-						if(MediumArray[i]->getSignatur() == inputSignatur){
-							MediumArray[i]->rueckgabe();
-							foundSignatur = true;
-							break;
+				if(container.getitem() != NULL){
+					if(container.getitem()->getSignatur() == inputSignatur){
+						try {
+							container.getitem()->rueckgabe();
 						}
-					}
-					for(int i=0;i<AnzahlBuecher;i++){
-						if(BuchArray[i]->getSignatur() == inputSignatur){
-							BuchArray[i]->rueckgabe();
-							foundSignatur = true;
-							break;
+						catch(StatusError err){
+							cout << err.text();
 						}
-					}
-					for(int i=0;i<AnzahlVideos;i++){
-						if(VideoArray[i]->getSignatur() == inputSignatur){
-							VideoArray[i]->rueckgabe();
-							foundSignatur = true;
-							break;
-						}
-					}
-					if(!foundSignatur){
-						cout << "\nKein Medium mit der Signatur " << inputSignatur << " vorhanden.\n\n";
 					}
 				}
 				else {
 					cout << "\nKeine Medien vorhanden.\n\n";
-				}
+				}				
 				break;
-			*/
 			// Medium entfernen
 			case 'd':
 				cin >> inputSignatur;

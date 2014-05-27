@@ -30,6 +30,9 @@
     <ClCompile Include="video.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="exceptions.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="container.h">
@@ -42,6 +45,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="video.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="exceptions.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

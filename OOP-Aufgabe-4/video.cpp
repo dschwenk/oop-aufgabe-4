@@ -43,7 +43,7 @@ void Video::print(){
 	else {
 		cout << setw(18) << titel << "  " << left << setw(8);
 	}	
-	if(this->entliehen){
+	if(this->status == entliehen){
 		cout << "entl.";
 	}
 	else {
