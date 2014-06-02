@@ -8,29 +8,9 @@
 using namespace std;
 
 
-Medium::Medium() {
-	// Signatur + Titel einlesen
-	cout << "\nBitte Mediendaten eingeben: Signatur, Titel\n";
-	do {
-		// clear zum zuruecksetzen nach Fehler, sync um Puffer zu leeren
-		cin.clear();
-		cin.sync();
-		cout << "Signatur: ";
-	}
-	while(!(cin >> this->signatur));
-	
-	cout << "Titel: ";
-	cin.sync();
-	getline(cin,this->titel);
-
-	this->status = vorhanden;
-
-	cout << "\nMedium angelegt.\n\n";
-}
-
 Medium::Medium(bool b){
 	// Signatur + Titel etc in Buch- / Video-Konstruktor
-	this->status = vorhanden;
+	this->status = praesent;
 }
 
 Medium::~Medium(){
@@ -38,9 +18,9 @@ Medium::~Medium(){
 }
 
 
-const void Medium::printHeadline(){
-	// gebe Tabellenkopf
-	cout << setw(8) << "Signatur" << left << setw(8)  << "Typ" << setw(18) << "Titel" << left << setw(10) << "Status" << setw(20) << "weitere Daten" << "\n";
+void Medium::printHeadline(){
+	// gebe Tabellenkopf aus
+	cout << "\n" << setw(8) << "Signatur" << "  " << left << setw(8)  << "Typ" << "  " << setw(18) << "Titel" << "  " << left << setw(10) << "Status" << setw(20) << "weitere Daten" << "\n";
 }
 
 void Medium::print(){
@@ -67,7 +47,7 @@ void Medium::print(){
 void Medium::ausleihen(){
 	// pruefen ob bereits ausgeliehen
 	if(this->status == entliehen){
-		throw StatusError(this->signatur, 0);
+		throw StatusError(this->signatur);
 	}
 	else {
 		this->status = entliehen;
@@ -79,11 +59,11 @@ void Medium::ausleihen(){
 void Medium::rueckgabe(){
 	// // pruefen ob ueberhaupt ausgeliehen
 	if(this->status == entliehen){
-		this->status = vorhanden;
+		this->status = praesent;
 		cout << "\nMedium zurueckgegeben.\n\n";
 	}
 	else {
-		throw StatusError(signatur, 1);
+		throw StatusError(signatur);
 	}
 }
 

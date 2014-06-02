@@ -7,17 +7,16 @@ using namespace std;
 
 enum Status {
 	entliehen,
-	vorhanden
+	praesent
 };
 
 
 class Medium {
 	public:
-		Medium();
 		Medium(bool);
 		~Medium();
 		virtual void print();
-		const void printHeadline();
+		static void printHeadline();
 		void ausleihen();
 		void rueckgabe();
 		int getSignatur();

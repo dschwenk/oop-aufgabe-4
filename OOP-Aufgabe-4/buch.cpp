@@ -12,6 +12,7 @@ Buch::Buch():Medium(false){
 	// Signatur, Seitenzahl, Titel einlesen
 	cout << "\nBitte Mediendaten eingeben: Signatur, Seitenzahl, Titel\n";
 	do {
+		// clear zum zuruecksetzen nach Fehler, sync um Puffer zu leeren
 		cin.clear();
 		cin.sync();
 		cout << "Signatur: ";
@@ -33,8 +34,9 @@ Buch::Buch():Medium(false){
 }
 
 
+
 void Buch::print(){
-	cout << right << setw(8) << signatur << "  " << left << setw(8) << "Buch";
+	cout << right << setw(8) << signatur << "  " << left << setw(8) << "Buch" << "  ";
 	if(this->titel.size() > 15){
 		string cutTitel = titel.substr(0,15);
 		cutTitel = cutTitel + "...";
@@ -49,5 +51,5 @@ void Buch::print(){
 	else {
 		cout << "vorh.";
 	}
-	cout << right << "Seitenanzahl " << left << this->seitenzahl << "\n";
+	cout << "  " << right << "Seitenanzahl " << left << this->seitenzahl << "\n";
 }

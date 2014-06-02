@@ -1,30 +1,28 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include "exceptions.h"
 
 using namespace std;
 
 
-StatusError::StatusError(int signatur, int fehlercode) {
-	ostringstream s;
-	// Stream zur Logdatei ERROR.LOG oeffnen (Datei anlegen sofern diese nicht besteht) und Fehlertext anhaengen
-	fstream log("ERROR.LOG", ios::out | ios::app);
-
-	// fehlernr = 1 - Fehler bei Rueckgabe
-	// fehlernr = 0 - Fehler bei Ausleihe
-	if(fehlercode){
-		s << "\nFehler bei der Ruecknahme von Signatur: ";
-	}
-	else { 
-		s << "\nFehler beim Verleih von Signatur: ";
-	}
-	s << signatur << "\n";
+StatusError::StatusError(int signatur) {
+	ostringstream s;	
+	s << "Fehler beim Leihen/Rueckgeben von Signatur ";
+	s << signatur << "\n" ;
+	// in String konvertieren
+	fehlertext = s.str();
+	
+	// Stream zur Logdatei ERROR.LOG oeffnen und Fehlertext anhaengen (Datei wird angelegt sofern diese nicht besteht) 
+	// Verknpuepfung der Modi durch |
+	ofstream errorlog("ERROR.LOG", ios::out | ios::app);
 
 	// in Logdatei schreiben und Datei schliessen
-	fehlertext = s.str();
-	log << fehlertext;
-	log.close();
+	errorlog << fehlertext;
+	errorlog.close();
 }
 
 
-string StatusError::text(){
+string StatusError::messages(){
 	return this->fehlertext;
 }

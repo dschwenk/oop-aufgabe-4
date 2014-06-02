@@ -17,9 +17,6 @@ int main(){
 
 	// Container, der die Medien listet / verwaltet
 	Container container;
-
-	Buch* tmpBuch;
-	Video* tmpVideo;
 	
 	// benoetigt fuer Menuauswahl
 	char inputChoice = '\0';
@@ -45,14 +42,12 @@ int main(){
 			// neues Buch
 			case 'b':
 				// neues Buch anelgen und zur Liste hinzufuegen
-				tmpBuch = new Buch();
-				container.add(tmpBuch);				
+				container.add(new Buch());
 				break;
 			// neues Video
 			case 'v':
 				// neues Video anelgen und zur Liste hinzufuegen
-				tmpVideo = new Video();
-				container.add(tmpVideo);				
+				container.add(new Video());				
 				break;
 			// auflisten
 			case 'l':
@@ -87,8 +82,11 @@ int main(){
 							container.getitem()->ausleihen();
 						}
 						catch(StatusError err){
-							cout << err.text();
+							cout << err.messages() << "\n\n";
 						}
+					}
+					else {
+						cout << "\nKein Medium mit der Signatur " << inputSignatur << " vorhanden.\n\n";
 					}
 				}
 				else {
@@ -108,8 +106,11 @@ int main(){
 							container.getitem()->rueckgabe();
 						}
 						catch(StatusError err){
-							cout << err.text();
+							cout << "\n" << err.messages() << "\n";
 						}
+					}
+					else {
+						cout << "\nKein Medium mit der Signatur " << inputSignatur << " vorhanden.\n\n";
 					}
 				}
 				else {
@@ -127,7 +128,7 @@ int main(){
 							break;
 						}
 						else {
-							cout << "\nFehler beim Loeschen.\n\n";
+							cout << "\n" << "\nFehler beim Loeschen.\n\n";
 							break;
 						}
 					}

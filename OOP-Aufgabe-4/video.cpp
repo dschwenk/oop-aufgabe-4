@@ -12,6 +12,7 @@ Video::Video():Medium(false){
 	// Signatur, Spieldauer, Titel einlesen
 	cout << "\nBitte Mediendaten eingeben: Signatur, Spieldauer, Titel\n";	
 	do {
+		// clear zum zuruecksetzen nach Fehler, sync um Puffer zu leeren
 		cin.clear();
 		cin.sync();
 		cout << "Signatur: ";
@@ -34,7 +35,7 @@ Video::Video():Medium(false){
 
 
 void Video::print(){
-	cout << right << setw(8) << signatur << "  " << left << setw(8) << "Video" << setw(18) << titel << "  " << setw(8);
+	cout << right << setw(8) << signatur << "  " << left << setw(8) << "Video" << "  ";
 	if(this->titel.size() > 15){
 		string cutTitel = titel.substr(0,15);
 		cutTitel = cutTitel + "...";
@@ -49,5 +50,5 @@ void Video::print(){
 	else {
 		cout << "vorh.";
 	}
-	cout << right << "Dauer " << right << fixed << setprecision(2) << this->spieldauer << " min\n";
+	cout << "  " << right << "Dauer " << right << fixed << setprecision(2) << this->spieldauer << " min\n";
 }
