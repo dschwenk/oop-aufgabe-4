@@ -5,7 +5,7 @@ using namespace std;
 
 
 Knoten::Knoten(Knoten* next, T* item){
-	// neuen Knoten initialisieren -> zeige auf naechsten Knoten und auf das Element (Medium)
+	// neuen Knoten initialisieren -> zeige auf naechsten Knoten (welches in der Liste bis jetzt ganz vorne stand) und auf das Element (Medium)
 	this->next = next;
 	this->item = item;
 }
@@ -23,7 +23,7 @@ void Container::add(T *element) {
 	// neuen Knoten anlegen
 	Knoten* tmpKnoten = new Knoten(this->first,element);
 
-	// sind keine Knoten in der Liste, setze iterator auf neues Element
+	// sind keine Knoten in der Liste, setze Iterator auf neues Element
 	if(this->first == NULL){
 		this->iterator = tmpKnoten;
 	}

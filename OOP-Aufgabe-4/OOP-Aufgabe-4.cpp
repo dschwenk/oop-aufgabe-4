@@ -23,7 +23,6 @@ int main(){
 	
 	// benoetigt fuer Auswahl Medium entleihen / zurueck geben
 	int inputSignatur = 0;
-	bool foundSignatur = false;
 
 	while(true){
 		cout << "Was wollen Sie tun?\n";
@@ -82,7 +81,7 @@ int main(){
 							container.getitem()->ausleihen();
 						}
 						catch(StatusError err){
-							cout << err.messages() << "\n\n";
+							cout << "\n" << err.messages() << "\n";
 						}
 					}
 					else {

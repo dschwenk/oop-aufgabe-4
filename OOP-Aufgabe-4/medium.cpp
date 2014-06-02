@@ -47,7 +47,7 @@ void Medium::print(){
 void Medium::ausleihen(){
 	// pruefen ob bereits ausgeliehen
 	if(this->status == entliehen){
-		throw StatusError(this->signatur);
+		throw StatusError(this->signatur,0);
 	}
 	else {
 		this->status = entliehen;
@@ -63,7 +63,7 @@ void Medium::rueckgabe(){
 		cout << "\nMedium zurueckgegeben.\n\n";
 	}
 	else {
-		throw StatusError(signatur);
+		throw StatusError(signatur,1);
 	}
 }
 

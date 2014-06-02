@@ -1,4 +1,3 @@
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #include "exceptions.h"
@@ -6,10 +5,18 @@
 using namespace std;
 
 
-StatusError::StatusError(int signatur) {
+StatusError::StatusError(int signatur, int fehlercode) {
+	
 	ostringstream s;	
-	s << "Fehler beim Leihen/Rueckgeben von Signatur ";
-	s << signatur << "\n" ;
+	// Fehlercode 0 - Entleihen
+	// Fehlercode 1 - Rueckgabe
+	if(fehlercode == 0){
+		s << "Fehler beim Leihen von Signatur ";
+	}
+	else {
+		s << "Fehler beim Rueckgeben von Signatur ";
+		}
+	s << signatur << ".\n" ;
 	// in String konvertieren
 	fehlertext = s.str();
 	
