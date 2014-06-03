@@ -24,6 +24,9 @@ int main(){
 	// benoetigt fuer Auswahl Medium entleihen / zurueck geben
 	int inputSignatur = 0;
 
+	// benoetigt um zu pruefen ob Medium mit der Signatur vorhanden ist
+	bool Signaturvorhanden;
+
 	while(true){
 		cout << "Was wollen Sie tun?\n";
 		cout << "b - Buch anlegen\n";
@@ -41,12 +44,44 @@ int main(){
 			// neues Buch
 			case 'b':
 				// neues Buch anelgen und zur Liste hinzufuegen
-				container.add(new Buch());
+				Buch* tmpBuch;
+				tmpBuch = new Buch();
+				Signaturvorhanden = false;
+				// setzte Iterator auf erstes Element der Liste, gehe dann Liste durch und pruefe ob Medium mit entsprechender Signatur vorhanden
+				for(container.begin();container.getitem() != NULL;container.next()){
+					if(container.getitem()->getSignatur() == tmpBuch->getSignatur()){
+						Signaturvorhanden = true;
+						break;
+					}
+				}
+				if(Signaturvorhanden){
+					cout << "\nBuch konnte nicht angelegt werden, da bereits ein Medium mit der Signatur " << tmpBuch->getSignatur() << " vorhanden ist.\n\n";
+				}
+				else {
+					container.add(tmpBuch);
+					cout << "\nBuch angelegt und zur Liste hinzugefuegt.\n\n";
+				}
 				break;
 			// neues Video
 			case 'v':
 				// neues Video anelgen und zur Liste hinzufuegen
-				container.add(new Video());				
+				Video* tmpVideo;
+				tmpVideo = new Video();
+				Signaturvorhanden = false;
+				// setzte Iterator auf erstes Element der Liste, gehe dann Liste durch und pruefe ob Medium mit entsprechender Signatur vorhanden
+				for(container.begin();container.getitem() != NULL;container.next()){
+					if(container.getitem()->getSignatur() == tmpVideo->getSignatur()){
+						Signaturvorhanden = true;
+						break;
+					}
+				}
+				if(Signaturvorhanden){
+					cout << "\nVideo konnte nicht angelegt werden, da bereits ein Medium mit der Signatur " << tmpVideo->getSignatur() << " vorhanden ist.\n\n";
+				}
+				else {
+					container.add(tmpVideo);
+					cout << "\nVideo angelegt und zur Liste hinzugefuegt.\n\n";
+				}		
 				break;
 			// auflisten
 			case 'l':
@@ -72,56 +107,85 @@ int main(){
 			// entleihen
 			case 'e':
 				cin >> inputSignatur;
-				// setzte Iterator auf erstes Element der Liste
+				Signaturvorhanden = false;
 				container.begin();
 				// sind Medien vorhanden?
 				if(container.getitem() != NULL){
-					if(container.getitem()->getSignatur() == inputSignatur){
+					// gehe Liste durch und pruefe ob Medium mit entsprechender Signatur vorhanden
+					for(container.begin();container.getitem() != NULL;container.next()){					
+						if(container.getitem()->getSignatur() == inputSignatur){
+							Signaturvorhanden = true;
+							break;
+						}
+					}
+					// Medium mit Signatur vorhanden
+					if(Signaturvorhanden){
 						try {
 							container.getitem()->ausleihen();
+							break;
 						}
 						catch(StatusError err){
 							cout << "\n" << err.messages() << "\n";
 						}
 					}
+					// Medium mit Signatur NICHT vorhanden
 					else {
 						cout << "\nKein Medium mit der Signatur " << inputSignatur << " vorhanden.\n\n";
-					}
+					}					
 				}
 				else {
 					cout << "\nKeine Medien vorhanden.\n\n";
-				}				
+				}
 				break;
-
 			// Rueckgabe
 			case 'r':
 				cin >> inputSignatur;
-				// setzte Iterator auf erstes Element der Liste
+				Signaturvorhanden = false;
 				container.begin();
 				// sind Medien vorhanden?
 				if(container.getitem() != NULL){
-					if(container.getitem()->getSignatur() == inputSignatur){
+					// gehe Liste durch und pruefe ob Medium mit entsprechender Signatur vorhanden
+					for(container.begin();container.getitem() != NULL;container.next()){					
+						if(container.getitem()->getSignatur() == inputSignatur){
+							Signaturvorhanden = true;
+							break;
+						}
+					}
+					// Medium mit Signatur vorhanden
+					if(Signaturvorhanden){
 						try {
 							container.getitem()->rueckgabe();
+							break;
 						}
 						catch(StatusError err){
 							cout << "\n" << err.messages() << "\n";
 						}
 					}
+					// Medium mit Signatur NICHT vorhanden
 					else {
 						cout << "\nKein Medium mit der Signatur " << inputSignatur << " vorhanden.\n\n";
-					}
+					}					
 				}
 				else {
 					cout << "\nKeine Medien vorhanden.\n\n";
-				}				
+				}
 				break;
 			// Medium entfernen
 			case 'd':
 				cin >> inputSignatur;
-				// setzte Iterator auf erstes Element der Liste, gehe dann Liste durch und pruefe ob Medium mit entsprechender Signatur vorhanden
-				for(container.begin();container.getitem() != NULL;container.next()){
-					if(container.getitem()->getSignatur() == inputSignatur){
+				Signaturvorhanden = false;
+				container.begin();
+				// sind Medien vorhanden?
+				if(container.getitem() != NULL){
+					// gehe Liste durch und pruefe ob Medium mit entsprechender Signatur vorhanden
+					for(container.begin();container.getitem() != NULL;container.next()){					
+						if(container.getitem()->getSignatur() == inputSignatur){
+							Signaturvorhanden = true;
+							break;
+						}
+					}
+					// Medium mit Signatur vorhanden
+					if(Signaturvorhanden){
 						if(container.remove()){
 							cout << "\nMedium geloescht.\n\n";
 							break;
@@ -131,6 +195,13 @@ int main(){
 							break;
 						}
 					}
+					// Medium mit Signatur NICHT vorhanden
+					else {
+						cout << "\nKein Medium mit der Signatur " << inputSignatur << " vorhanden.\n\n";
+					}
+				}
+				else {
+					cout << "\nKeine Medien vorhanden.\n\n";
 				}
 				break;
 			// Verlassen

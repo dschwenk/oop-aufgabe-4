@@ -29,8 +29,6 @@ Video::Video():Medium(false){
 	cout << "Titel: ";
 	cin.sync();	
 	getline(cin,this->titel);
-
-	cout << "\nVideo angelegt.\n\n";
 }
 
 

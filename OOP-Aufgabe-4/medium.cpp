@@ -14,7 +14,7 @@ Medium::Medium(bool b){
 }
 
 Medium::~Medium(){
-	cout << "\nKontruktor des Mediums mit der Signatur: " << this->signatur << "\n";
+	cout << "\nDestruktor des Mediums mit der Signatur: " << this->signatur << "\n";
 }
 
 

@@ -59,6 +59,7 @@ bool Container::remove() {
 		if(tmpKnoten == NULL){
 			return NULL;
 		}
+		// tmpKnoten->next zeigt auf Nachfolger
 		tmpKnoten->next = this->iterator->next;
 		// loesche Element (Medium) und Knoten
 		delete this->iterator->item;

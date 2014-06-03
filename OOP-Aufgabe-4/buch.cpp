@@ -29,10 +29,7 @@ Buch::Buch():Medium(false){
 	cout << "Titel: ";
 	cin.sync();
 	getline(cin,this->titel);
-
-	cout << "\nBuch angelegt.\n\n";
 }
-
 
 
 void Buch::print(){
